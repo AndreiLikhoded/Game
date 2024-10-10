@@ -69,7 +69,7 @@ public class Game {
         for (int i = 0; i < playersMove.length; i++){
             System.out.printf("%-6s  %-6s  %-6s\n", "Игрок" + (i + 1),
                     playersMove[i] == 1 ? "[ставка орел] :" : "[ставка решка] :",
-                    (playersMove[i] == coinRandom) ? "выиграл" : "проиграл");
+                    (playersMove[i] == coinRandom) ? "выиграл/продолжает игру" : "проиграл/выбыл из игры");
         }
     }
 }
