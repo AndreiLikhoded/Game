@@ -5,78 +5,60 @@ import java.util.Scanner;
 public class Game {
 
 
-    public static void startGame() {
-        int firstPlayerScore = 0;
-        int secondPlayerScore = 0;
-        int thirdPlayerScore = 0;
+    public static void startGame(){
         Scanner scanner = new Scanner(System.in);
+        int numberOfPlayers = 0;
+        while(numberOfPlayers < 1 || numberOfPlayers > 20){
+            try{
+                System.out.println("ИГРА ОРЁЛ И РЕШКА");
+                System.out.println("------------------");
+                System.out.println("Введите количество игроков (1-20)");
+                numberOfPlayers = Integer.parseInt(scanner.nextLine());
+                if(numberOfPlayers < 1 || numberOfPlayers > 20){
+                    System.out.println("Ошибка, введите количество игроков от 1-20");
+                }
+            }catch (NumberFormatException e){
+                System.out.println("Ошибка");
+            }
+        }
 
-        System.out.println("ИГРА ОРЁЛ И РЕШКА");
-        System.out.println("------------------");
+        int[] score = new int[numberOfPlayers];
 
-        while (true) {
-            int coinRandom = (int) (Math.random() * 2);
-
-            int firstPlayerMove = -1;
-            while (firstPlayerMove < 0 || firstPlayerMove > 1) {
-                try {
-                    System.out.println("[Игрок 1] ваша ставка (1 - орёл, 0 - решка):");
-                    firstPlayerMove = Integer.parseInt(scanner.nextLine());
-                    if (firstPlayerMove < 0 || firstPlayerMove > 1) {
-                        System.out.println("Ошибка ввода");
+        while(true){
+            int coinRandom = (int)(Math.random()*2);
+            int[] playersMove = new int[numberOfPlayers];
+            for(int i = 0; i < numberOfPlayers; i++){
+                int move = -1;
+                while(move < 0 || move > 1){
+                    try{
+                        System.out.println("[Игрок " + (i + 1) + "] ваша ставка (1 - орёл, 0 - решка):");
+                        move = Integer.parseInt(scanner.nextLine());
+                        if(move < 0 || move > 1){
+                            System.out.println("Ошибка");
+                        }
+                    }catch (NumberFormatException e){
+                        System.out.println("Ошибка");
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("Ошибка ввода");
+                }
+                playersMove[i] = move;
+                if(move == coinRandom){
+                    score[i]++;
                 }
             }
-
-
-            int secondPlayerMove = -1;
-            while (secondPlayerMove < 0 || secondPlayerMove > 1) {
-                try {
-                    System.out.println("[Игрок 2] ваша ставка (1 - орёл, 0 - решка):");
-                    secondPlayerMove = Integer.parseInt(scanner.nextLine());
-                    if (secondPlayerMove < 0 || secondPlayerMove > 1) {
-                        System.out.println("Ошибка ввода");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Ошибка ввода");
-                }
-            }
-
-
-
-            int thirdPlayerMove = -1;
-            while(thirdPlayerMove < 0 || thirdPlayerMove > 1){
-                try {
-                    System.out.println("[Игрок 3] ваша ставка (1 - орёл, 0 - решка):");
-                    thirdPlayerMove = Integer.parseInt(scanner.nextLine());
-                    if(thirdPlayerMove < 0 || thirdPlayerMove > 1){
-                        System.out.println("Ошибка ввода");
-                    }
-                }catch (NumberFormatException e){
-                    System.out.println("Ошибка ввода");
-                }
-            }
-
-            printResult(coinRandom, firstPlayerMove, secondPlayerMove, thirdPlayerMove);
+            printResult(coinRandom, playersMove);
             break;
         }
     }
-
-    public static void printResult(int coinRandom, int firstPlayerMove, int secondPlayerMove, int thirdPlayerMove) {
-        System.out.println("Подкинули монетку, выпала сторона: " + (coinRandom == 1 ? "орёл" : "решка"));
+    public static void printResult(int coinRandom, int[] playersMove){
+        System.out.println("Подкинули монетку, выпала сторона: " + (coinRandom == 1 ? "орел" : "решка"));
         System.out.println();
 
         System.out.println("Результаты игры");
 
-        System.out.printf("%-6s  %-6s  %-6s\n", "Игрок 1", firstPlayerMove == 1 ? "[ставка орёл]  :" : "[ставка решка] :",
-                (firstPlayerMove == coinRandom) ? "выиграл" : "проиграл");
-
-        System.out.printf("%-6s  %-6s  %-6s\n", "Игрок 2", secondPlayerMove == 1 ? "[ставка орёл]  :" : "[ставка решка] :",
-                (secondPlayerMove == coinRandom) ? "выиграл" : "проиграл");
-
-        System.out.printf("%-6s  %-6s  %-6s\n", "Игрок 3", thirdPlayerMove == 1 ? "[ставка орёл]  :" : "[ставка решка] :",
-                (thirdPlayerMove == coinRandom) ? "выиграл" : "проиграл");
+        for (int i = 0; i < playersMove.length; i++){
+            System.out.printf("%-6s  %-6s  %-6s\n", "Игрок" + (i + 1),
+                    playersMove[i] == 1 ? "[ставка орел] :" : "[ставка решка] :",
+                    (playersMove[i] == coinRandom) ? "выиграл" : "проиграл");
+        }
     }
 }
