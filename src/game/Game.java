@@ -1,10 +1,10 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-
-
     public static void startGame(){
         Scanner scanner = new Scanner(System.in);
         int numberOfPlayers = 0;
@@ -22,12 +22,16 @@ public class Game {
             }
         }
 
-        int[] score = new int[numberOfPlayers];
+        List<Integer> players = new ArrayList<>();
+        for(int i = 0; i < numberOfPlayers; i++){
+            players.add(i);
+        }
 
-        while(true){
+        while(players.size() > 0){
             int coinRandom = (int)(Math.random()*2);
-            int[] playersMove = new int[numberOfPlayers];
-            for(int i = 0; i < numberOfPlayers; i++){
+            int[] playersMove = new int[players.size()];
+            boolean[] losePlayer = new boolean[players.size()];
+            for(int i = 0; i < players.size(); i++){
                 int move = -1;
                 while(move < 0 || move > 1){
                     try{
@@ -41,12 +45,19 @@ public class Game {
                     }
                 }
                 playersMove[i] = move;
-                if(move == coinRandom){
-                    score[i]++;
+
+                if(move != coinRandom){
+                    losePlayer[i] = true;
+                }
+            }
+
+            for(int i = players.size() - 1; i >= 0; i--){
+                if(losePlayer[i]){
+                    players.remove(i);
                 }
             }
             printResult(coinRandom, playersMove);
-            break;
+
         }
     }
     public static void printResult(int coinRandom, int[] playersMove){
