@@ -24,7 +24,7 @@ public class Game {
         }
 
         List<Integer> players = new ArrayList<>();
-        for(int i = 0; i <= numberOfPlayers; i++){
+        for(int i = 1; i <= numberOfPlayers; i++){
             players.add(i);
         }
 
