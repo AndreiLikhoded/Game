@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,19 +24,19 @@ public class Game {
         }
 
         List<Integer> players = new ArrayList<>();
-        for(int i = 0; i < numberOfPlayers; i++){
+        for(int i = 0; i <= numberOfPlayers; i++){
             players.add(i);
         }
 
         while(players.size() > 0){
             int coinRandom = (int)(Math.random()*2);
             int[] playersMove = new int[players.size()];
-            boolean[] losePlayer = new boolean[players.size()];
+            boolean[] isLostPlayer = new boolean[players.size()];
             for(int i = 0; i < players.size(); i++){
                 int move = -1;
                 while(move < 0 || move > 1){
                     try{
-                        System.out.println("[Игрок " + (i + 1) + "] ваша ставка (1 - орёл, 0 - решка):");
+                        System.out.println("[Игрок" + players.get(i) + "] ваша ставка (1 - орёл, 0 - решка):");
                         move = Integer.parseInt(scanner.nextLine());
                         if(move < 0 || move > 1){
                             System.out.println("Ошибка");
@@ -47,15 +48,17 @@ public class Game {
                 playersMove[i] = move;
 
                 if(move != coinRandom){
-                    losePlayer[i] = true;
+                    isLostPlayer[i] = true;
                 }
             }
 
-            for(int i = players.size() - 1; i >= 0; i--){
-                if(losePlayer[i]){
-                    players.remove(i);
+            List<Integer> remainPlayers = new ArrayList<>();
+            for(int i = 0; i < players.size(); i++){
+                if(!isLostPlayer[i]){
+                    remainPlayers.add(players.get(i));
                 }
             }
+            players = remainPlayers;
             printResult(coinRandom, playersMove);
 
         }
@@ -68,7 +71,7 @@ public class Game {
 
         for (int i = 0; i < playersMove.length; i++){
             System.out.printf("%-6s  %-6s  %-6s\n", "Игрок" + (i + 1),
-                    playersMove[i] == 1 ? "[ставка орел] :" : "[ставка решка] :",
+                    playersMove[i] == 1 ? "[ставка орел]  :" : "[ставка решка] :",
                     (playersMove[i] == coinRandom) ? "выиграл/продолжает игру" : "проиграл/выбыл из игры");
         }
     }
