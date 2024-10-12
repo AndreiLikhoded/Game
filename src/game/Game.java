@@ -8,8 +8,8 @@ public class Game {
 
     private static final int MINIMAL_NUMBER_OF_PLAYERS = 1;
     private static final int MAXIMUM_NUMBER_OF_PLAYERS = 20;
-    private static final int OREL = 1;
-    private static final int RESHKA = 0;
+    private static final int HEADS = 1;
+    private static final int TAILS = 0;
 
     public static void startGame(){
         Scanner scanner = new Scanner(System.in);
@@ -18,10 +18,10 @@ public class Game {
             try{
                 System.out.println("ИГРА ОРЁЛ И РЕШКА");
                 System.out.println("------------------");
-                System.out.println("Введите количество игроков (1-20)");
+                System.out.println("Введите количество игроков (" + MINIMAL_NUMBER_OF_PLAYERS + "-" + MAXIMUM_NUMBER_OF_PLAYERS + ")");
                 numberOfPlayers = Integer.parseInt(scanner.nextLine());
                 if(numberOfPlayers < MINIMAL_NUMBER_OF_PLAYERS || numberOfPlayers > MAXIMUM_NUMBER_OF_PLAYERS){
-                    System.out.println("Ошибка, введите количество игроков от 1-20");
+                    System.out.println("Ошибка, введите количество игроков от " + MINIMAL_NUMBER_OF_PLAYERS + "-" + MAXIMUM_NUMBER_OF_PLAYERS);
                 }
             }catch (NumberFormatException e){
                 System.out.println("Ошибка");
@@ -39,11 +39,11 @@ public class Game {
             boolean[] isLostPlayer = new boolean[players.size()];
             for(int i = 0; i < players.size(); i++){
                 int move = -1;
-                while(move < RESHKA || move > OREL){
+                while(move < TAILS || move > HEADS){
                     try{
-                        System.out.println("[Игрок" + players.get(i) + "] ваша ставка (1 - орёл, 0 - решка):");
+                        System.out.println("[Игрок" + players.get(i) + "] ваша ставка (" + HEADS + " - орёл," + TAILS + " - решка):");
                         move = Integer.parseInt(scanner.nextLine());
-                        if(move < RESHKA || move > OREL){
+                        if(move < TAILS || move > HEADS){
                             System.out.println("Ошибка");
                         }
                     }catch (NumberFormatException e){
@@ -69,14 +69,13 @@ public class Game {
         }
     }
     public static void printResult(int coinRandom, int[] playersMove){
-        System.out.println("Подкинули монетку, выпала сторона: " + (coinRandom == OREL ? "орел" : "решка"));
+        System.out.println("Подкинули монетку, выпала сторона: " + (coinRandom == HEADS ? TAILS : HEADS));
         System.out.println();
 
         System.out.println("Результаты игры");
-
-        for (int i = 0; i < playersMove.length; i++){
+       for(int i = 0; i < playersMove.length; i++){
             System.out.printf("%-6s  %-6s  %-6s\n", "Игрок" + (i + 1),
-                    playersMove[i] == OREL ? "[ставка орел]  :" : "[ставка решка] :",
+                    playersMove[i] == HEADS ? "[ставка орел]  :" : "[ставка решка] :",
                     (playersMove[i] == coinRandom) ? "выиграл/продолжает игру" : "проиграл/выбыл из игры");
         }
     }
