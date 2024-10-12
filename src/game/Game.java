@@ -1,21 +1,26 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Game {
+
+    private static final int MINIMAL_NUMBER_OF_PLAYERS = 1;
+    private static final int MAXIMUM_NUMBER_OF_PLAYERS = 20;
+    private static final int OREL = 1;
+    private static final int RESHKA = 0;
+
     public static void startGame(){
         Scanner scanner = new Scanner(System.in);
         int numberOfPlayers = 0;
-        while(numberOfPlayers < 1 || numberOfPlayers > 20){
+        while(numberOfPlayers < MINIMAL_NUMBER_OF_PLAYERS || numberOfPlayers > MAXIMUM_NUMBER_OF_PLAYERS){
             try{
                 System.out.println("ИГРА ОРЁЛ И РЕШКА");
                 System.out.println("------------------");
                 System.out.println("Введите количество игроков (1-20)");
                 numberOfPlayers = Integer.parseInt(scanner.nextLine());
-                if(numberOfPlayers < 1 || numberOfPlayers > 20){
+                if(numberOfPlayers < MINIMAL_NUMBER_OF_PLAYERS || numberOfPlayers > MAXIMUM_NUMBER_OF_PLAYERS){
                     System.out.println("Ошибка, введите количество игроков от 1-20");
                 }
             }catch (NumberFormatException e){
@@ -34,11 +39,11 @@ public class Game {
             boolean[] isLostPlayer = new boolean[players.size()];
             for(int i = 0; i < players.size(); i++){
                 int move = -1;
-                while(move < 0 || move > 1){
+                while(move < RESHKA || move > OREL){
                     try{
                         System.out.println("[Игрок" + players.get(i) + "] ваша ставка (1 - орёл, 0 - решка):");
                         move = Integer.parseInt(scanner.nextLine());
-                        if(move < 0 || move > 1){
+                        if(move < RESHKA || move > OREL){
                             System.out.println("Ошибка");
                         }
                     }catch (NumberFormatException e){
@@ -64,14 +69,14 @@ public class Game {
         }
     }
     public static void printResult(int coinRandom, int[] playersMove){
-        System.out.println("Подкинули монетку, выпала сторона: " + (coinRandom == 1 ? "орел" : "решка"));
+        System.out.println("Подкинули монетку, выпала сторона: " + (coinRandom == OREL ? "орел" : "решка"));
         System.out.println();
 
         System.out.println("Результаты игры");
 
         for (int i = 0; i < playersMove.length; i++){
             System.out.printf("%-6s  %-6s  %-6s\n", "Игрок" + (i + 1),
-                    playersMove[i] == 1 ? "[ставка орел]  :" : "[ставка решка] :",
+                    playersMove[i] == OREL ? "[ставка орел]  :" : "[ставка решка] :",
                     (playersMove[i] == coinRandom) ? "выиграл/продолжает игру" : "проиграл/выбыл из игры");
         }
     }
