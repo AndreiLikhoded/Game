@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-
     private static final int MINIMAL_NUMBER_OF_PLAYERS = 1;
     private static final int MAXIMUM_NUMBER_OF_PLAYERS = 20;
-    private static final int HEADS = 1;
-    private static final int TAILS = 0;
+    private static final char HEADS = 'о';
+    private static final char TAILS = 'р';
 
     public static void startGame(){
         Scanner scanner = new Scanner(System.in);
@@ -35,21 +34,23 @@ public class Game {
 
         while(players.size() > 0){
             int coinRandom = (int)(Math.random()*2);
-            int[] playersMove = new int[players.size()];
+            char[] playersMove = new char[players.size()];
             boolean[] isLostPlayer = new boolean[players.size()];
+
             for(int i = 0; i < players.size(); i++){
-                int move = -1;
-                while(move < TAILS || move > HEADS){
+                char move = ' ';
+                while(move != TAILS && move != HEADS){
                     try{
                         System.out.println("[Игрок" + players.get(i) + "] ваша ставка (" + HEADS + " - орёл," + TAILS + " - решка):");
-                        move = Integer.parseInt(scanner.nextLine());
-                        if(move < TAILS || move > HEADS){
+                        move = scanner.nextLine().charAt(0);
+                        if(move != TAILS && move != HEADS){
                             System.out.println("Ошибка");
                         }
                     }catch (NumberFormatException e){
                         System.out.println("Ошибка");
                     }
                 }
+
                 playersMove[i] = move;
 
                 if(move != coinRandom){
@@ -68,12 +69,12 @@ public class Game {
 
         }
     }
-    public static void printResult(int coinRandom, int[] playersMove){
+    public static void printResult(int coinRandom, char[] playersMove){
         System.out.println("Подкинули монетку, выпала сторона: " + (coinRandom == HEADS ? TAILS : HEADS));
         System.out.println();
 
         System.out.println("Результаты игры");
-       for(int i = 0; i < playersMove.length; i++){
+        for(int i = 0; i < playersMove.length; i++){
             System.out.printf("%-6s  %-6s  %-6s\n", "Игрок" + (i + 1),
                     playersMove[i] == HEADS ? "[ставка орел]  :" : "[ставка решка] :",
                     (playersMove[i] == coinRandom) ? "выиграл/продолжает игру" : "проиграл/выбыл из игры");
