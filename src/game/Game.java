@@ -33,7 +33,7 @@ public class Game {
         }
 
         while(players.size() > 0){
-            int coinRandom = (int)(Math.random()*2);
+            char coinRandom = Math.random() < 0.5 ? HEADS : TAILS;
             char[] playersMove = new char[players.size()];
             boolean[] isLostPlayer = new boolean[players.size()];
 
@@ -53,9 +53,10 @@ public class Game {
 
                 playersMove[i] = move;
 
-                if(move != coinRandom){
+                if (move != coinRandom) {
                     isLostPlayer[i] = true;
                 }
+
             }
 
             List<Integer> remainPlayers = new ArrayList<>();
@@ -70,7 +71,7 @@ public class Game {
         }
     }
     public static void printResult(int coinRandom, char[] playersMove){
-        System.out.println("Подкинули монетку, выпала сторона: " + (coinRandom == HEADS ? TAILS : HEADS));
+        System.out.println("Подкинули монетку, выпала сторона: " + (coinRandom == HEADS ? HEADS : TAILS));
         System.out.println();
 
         System.out.println("Результаты игры");
